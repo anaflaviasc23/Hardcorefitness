@@ -6,14 +6,14 @@
 
 body {
   margin: 0;
-  background: #000;
+  background: #ffff;
 }
 
 /* HEADER */
 header {
   text-align: center;
   padding: 25px;
-  background: #000;
+  background: #ffff;
   border-bottom: 2px solid #dc2626;
 }
 
