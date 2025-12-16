@@ -42,7 +42,7 @@ main {
 button {
   padding: 16px;
   background: #111827;
-  color: #fff;
+  color: white;
   border: 2px solid #dc2626;
   border-radius: 12px;
   font-size: 17px;
@@ -50,6 +50,7 @@ button {
 
 button:active {
   transform: scale(0.97);
+  color: red;
 }
 
 .modal {
