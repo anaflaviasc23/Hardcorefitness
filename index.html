@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <title>Hardcore Fitness</title>
@@ -7,78 +8,91 @@
   <link rel="stylesheet" href="style.css">
 
 </head>
+
 <body>
 
-<header> 
-  <h1>HARDCORE FITNESS</h1> 
-  <span>Disciplina vence motivação</span> 
-</header>
+  <header>
+    <h1>HARDCORE FITNESS</h1>
+    <span>Disciplina vence motivação</span>
+  </header>
 
-<main>
-<button onclick="window.location.href='treinos.html'">
-  🏋️ Treinos
-</button>
-  <button onclick="abrir('evolucao')">💪🏼 Evolução Pessoal </button>
-  <button onclick="abrir('calendario')">📅 Check-in</button>
-  <button onclick="abrirResumo()">📊 Resumo Semanal</button>
+  <main>
+    <button onclick="window.location.href='treinos1.html'">
+      🏋️ Treinos 1/2025
+    </button>
+    <button onclick="window.location.href='treinos2.html'">
+      🏋️ Treinos 2/2025
+    </button>
+    <button onclick="window.location.href='dieta.html'">
+      🥗Dieta
+    </button>
+    <button onclick="abrir('evolucao')">💪🏼 Evolução Pessoal </button>
+    <button onclick="abrir('calendario')">📅 Check-in</button>
 
-</main>
+
+  </main>
 
 
-<!-- EVOLUÇÃO -->
-<div class="modal" id="evolucao">
-  <h2>Evolução Física</h2>
+  <!-- EVOLUÇÃO -->
+  <div class="modal" id="evolucao">
+    <h2>Evolução Física</h2>
 
-  <input id="peso" placeholder="Peso (kg)">
-  <input id="quadril" placeholder="Quadril (cm)">
-  <input id="perna" placeholder="Perna (cm)">
-  <input id="braco" placeholder="Braço (cm)">
-  <input id="busto" placeholder="Busto (cm)">
-  <input id="barriga" placeholder="Barriga (cm)">
+    <span>Peso:</span>
+    <input id="peso" placeholder="Peso (kg)">
 
-  <button onclick="salvarEvolucao()">Salvar Evolução</button>
+    <span>Quadril:</span>
+    <input id="quadril" placeholder="Quadril (cm)">
 
-  <div id="historico"></div>
-<br>
-  <button class="voltar" onclick="fechar()">Voltar</button>
-</div>
+    <span>Perna:</span>
+    <input id="perna" placeholder="Perna (cm)">
 
-<!-- CHECK-IN -->
+    <span>Braço:</span>
+    <input id="braco" placeholder="Braço (cm)">
 
-<div class="modal" id="calendario">
-  <h2>Check-in do Treino</h2>
+    <span>Busto:</span>
+    <input id="busto" placeholder="Busto (cm)">
 
-  <p id="dataHora"></p>
+    <span>Barriga:</span>
+    <input id="barriga" placeholder="Barriga (cm)">
 
-  <input id="tempoTreino" placeholder="Tempo de treino (horas)">
-  <input id="calorias" placeholder="Calorias gastas (kcal)">
-  <textarea id="comentario" placeholder="Comentário (opcional)"></textarea>
+    <br><br>
+    <button onclick="salvarEvolucao()">Salvar Evolução</button>
 
-  <p>Como foi o treino?</p>
-
-  <div class="humor">
-    <button onclick="selecionarHumor(this, 'Difícil 😭')">😭 Difícil</button>
-    <button onclick="selecionarHumor(this, 'Intenso 🔥')">🔥 Intenso</button>
-    <button onclick="selecionarHumor(this, 'Tranquilo 😌')">😌 Tranquilo</button>
-    <button onclick="selecionarHumor(this, 'Suave 🥰')">🥰 Suave</button>
-  </div>
-
-  <button class="salvar" onclick="salvarCheckin()">🔥 Salvar Check-in</button>
-
-  <div id="listaDias"></div>
-
-  <button class="voltar" onclick="fechar()">Voltar</button>
-</div>
-
-<!-- RESUMO SEMANAL -->
-
-  <div id="resumoSemanal" style="display:none;">
-  <h2>📊 Resumo Semanal</h2>
-  <div id="listaSemanas"></div>
- 
+    <div id="listarEvolucao"></div>
+    <br>
+    <button class="voltar" onclick="fechar()">Voltar</button>
   </div>
 
 
-<script src="script.js"></script>
+  <!-- CHECK-IN -->
+
+  <div class="modal" id="calendario">
+    <h2>Check-in do Treino</h2>
+
+    <p id="dataHora"></p>
+
+    <input id="tempoTreino" placeholder="Tempo de treino (horas)">
+    <input id="calorias" placeholder="Calorias gastas (kcal)">
+    <textarea id="comentario" placeholder="Comentário (opcional)"></textarea>
+
+    <p>Como foi o treino?</p>
+
+    <div class="humor">
+      <button onclick="selecionarHumor(this, 'Difícil 😭')">😭 Difícil</button>
+      <button onclick="selecionarHumor(this, 'Intenso 🔥')">🔥 Intenso</button>
+      <button onclick="selecionarHumor(this, 'Tranquilo 😌')">😌 Tranquilo</button>
+      <button onclick="selecionarHumor(this, 'Suave 🥰')">🥰 Suave</button>
+    </div>
+    <br>
+    <button class="salvar" onclick="salvarCheckin()">🔥 Salvar Check-in</button>
+    <br>
+    <div id="listaDias"></div>
+
+    <button class="voltar" onclick="fechar()">Voltar</button>
+  </div>
+
+
+  <script src="script.js"></script>
 </body>
+
 </html>
