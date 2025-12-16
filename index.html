@@ -42,24 +42,26 @@
 </div>
 
 <!-- CHECK-IN -->
+
 <div class="modal" id="calendario">
   <h2>Check-in do Treino</h2>
 
   <p id="dataHora"></p>
 
-  <input id="tempoTreino" placeholder="Tempo de treino (min)">
+  <input id="tempoTreino" placeholder="Tempo de treino (horas)">
   <input id="calorias" placeholder="Calorias gastas (kcal)">
   <textarea id="comentario" placeholder="Comentário (opcional)"></textarea>
 
   <p>Como foi o treino?</p>
+
   <div class="humor">
-    <button onclick="selecionarHumor('Difícil 😭')">Difícil 😭</button>
-    <button onclick="selecionarHumor('Intenso 🔥')">Intenso 🔥</button>
-    <button onclick="selecionarHumor('Tranquilo 😌')">Tranquilo 😌</button>
-    <button onclick="selecionarHumor('Suave 🥰')">Suave 🥰</button>
+    <button onclick="selecionarHumor(this, 'Difícil 😭')">😭 Difícil</button>
+    <button onclick="selecionarHumor(this, 'Intenso 🔥')">🔥 Intenso</button>
+    <button onclick="selecionarHumor(this, 'Tranquilo 😌')">😌 Tranquilo</button>
+    <button onclick="selecionarHumor(this, 'Suave 🥰')">🥰 Suave</button>
   </div>
 
-  <button onclick="salvarCheckin()">🔥 Salvar Check-in</button>
+  <button class="salvar" onclick="salvarCheckin()">🔥 Salvar Check-in</button>
 
   <div id="listaDias"></div>
 
