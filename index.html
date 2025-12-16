@@ -15,28 +15,13 @@
 </header>
 
 <main>
-  <button onclick="abrir('treinos')">🏋️ Treinos</button>
+<button onclick="window.location.href='treinos.html'">
+  🏋️ Treinos
+</button>
   <button onclick="abrir('evolucao')">📊 Evolução</button>
   <button onclick="abrir('calendario')">📅 Check-in</button>
 </main>
 
-<!-- TREINOS -->
-<div class="modal" id="treinos">
-  <h2>Meus Treinos</h2>
-
-  <input id="nomeTreino" placeholder="Ex: Treino A - Pernas">
-
-  <input id="exercicio" placeholder="Adicionar exercício/aparelho">
-  <button onclick="addExercicio()">➕ Adicionar Exercício</button>
-
-  <ul id="listaExercicios"></ul>
-
-  <button onclick="salvarTreino()">Salvar Treino</button>
-
-  <div id="listaTreinos"></div>
-
-  <button class="voltar" onclick="fechar()">Voltar</button>
-</div>
 
 <!-- EVOLUÇÃO -->
 <div class="modal" id="evolucao">
