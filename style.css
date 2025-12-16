@@ -124,3 +124,25 @@ button.salvar {
   margin-bottom: 15px;
 }
 
+.semana-card {
+  background: #0f172a;
+  padding: 14px;
+  border-radius: 12px;
+  margin-top: 15px;
+  box-shadow: 0 4px 10px rgba(0,0,0,.4);
+}
+
+.semana-titulo {
+  font-weight: bold;
+  color: #f87171;
+  margin-bottom: 8px;
+}
+
+.semana-info {
+  display: flex;
+  justify-content: space-between;
+  margin: 4px 0;
+  font-size: 14px;
+}
+
+
