@@ -121,21 +121,73 @@ function listarEvolucao() {
 
 /* ================= CHECK-IN ================= */
 
-function checkin() {
-  const hoje = new Date().toLocaleDateString();
-  const dias = JSON.parse(localStorage.getItem('checkin')) || [];
+let humorSelecionado = '';
 
-  if (!dias.includes(hoje)) dias.push(hoje);
+function atualizarDataHora() {
+  const agora = new Date();
+  const data = agora.toLocaleDateString();
+  const hora = agora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-  localStorage.setItem('checkin', JSON.stringify(dias));
-  listarCheckin();
+  document.getElementById('dataHora').textContent =
+    `📅 ${data} • ⏰ ${hora}`;
 }
 
-function listarCheckin() {
-  const dias = JSON.parse(localStorage.getItem('checkin')) || [];
+function selecionarHumor(humor) {
+  humorSelecionado = humor;
+  document.querySelectorAll('.humor button').forEach(b => b.classList.remove('ativo'));
+  event.target.classList.add('ativo');
+}
+
+function salvarCheckin() {
+  const agora = new Date();
+
+  const checkin = {
+    data: agora.toLocaleDateString(),
+    hora: agora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    tempo: tempoTreino.value,
+    calorias: calorias.value,
+    comentario: comentario.value,
+    humor: humorSelecionado
+  };
+
+  const lista = JSON.parse(localStorage.getItem('checkins')) || [];
+  lista.unshift(checkin);
+
+  localStorage.setItem('checkins', JSON.stringify(lista));
+
+  tempoTreino.value = '';
+  calorias.value = '';
+  comentario.value = '';
+  humorSelecionado = '';
+
+  document.querySelectorAll('.humor button').forEach(b => b.classList.remove('ativo'));
+
+  listarCheckins();
+}
+
+function listarCheckins() {
+  const lista = JSON.parse(localStorage.getItem('checkins')) || [];
   listaDias.innerHTML = '';
-  dias.forEach(d => listaDias.innerHTML += `<li>🔥 ${d}</li>`);
+
+  lista.forEach(c => {
+    listaDias.innerHTML += `
+      <div>
+        <strong>${c.data} • ${c.hora}</strong><br>
+        ⏱️ ${c.tempo || '-'} min | 🔥 ${c.calorias || '-'} kcal<br>
+        ${c.humor || ''}<br>
+        💬 ${c.comentario || 'Sem comentário'}
+      </div>
+    `;
+  });
 }
+
+/* ATUALIZAR DATA/HORA AO ABRIR */
+document.querySelector("button[onclick=\"abrir('calendario')\"]")
+  .addEventListener('click', atualizarDataHora);
+
+/* INIT */
+listarCheckins();
+
 
 /* INIT */
 listarTreinos();
