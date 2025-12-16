@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Treinos - Hardcore Fitness</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 15px;
+      background: #0c0c0c;;
+      color: #e5e7eb;
+    }
+
+    h1 {
+      text-align: center;
+      color: #dc2626;
+      margin-bottom: 30px;
+      letter-spacing: 1px;
+    }
+
+    .treino {
+      margin-bottom: 25px;
+      padding: 15px;
+      border-radius: 12px;
+      background: rgb(25, 27, 32);;
+      border-left: 5px solid #dc2626;
+    }
+
+    .treino h3 {
+      margin-bottom: 12px;
+      color: #f87171;
+      font-size: 16px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    ul li {
+      margin-bottom: 10px;
+      font-size: 14px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.2);
+      margin-top: 2px;
+      cursor: pointer;
+    }
+
+    label {
+      cursor: pointer;
+      line-height: 1.4;
+    }
+
+    .acoes {
+      margin-top: 15px;
+      text-align: center;
+    }
+
+    .acoes button {
+      padding: 10px 15px;
+      background: #dc2626;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .voltar {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    .voltar a {
+      text-decoration: none;
+      color: #9ca3af;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Treinos Ana • 02/2025 💪🔥</h1>
+
+  <div id="treinosContainer"></div>
+
+  <div class="voltar">
+    <a href="index.html">← Voltar para o App</a>
+  </div>
+
+  <script>
+    const treinos = [
+      {
+        nome: "Treino A – Quadríceps / Frente",
+        exercicios: [
+          "Agachamento Squat + Afundo (Biset) – 3x12",
+          "Leg sentado art. (Tijolinho) – 3x15 | 12 | 10",
+          "Leg 45° – 3x10",
+          "Cadeira Extensora uni + total – 3x12",
+          "Hack Guiado – 3x15",
+          "Adução – 3x15",
+          "Abdômen Supra Militar – Máx.",
+          "Graviton – 3x15"
+        ]
+      },
+      {
+        nome: "Treino B – Costas / Peito / Braços",
+        exercicios: [
+          "Graviton – 3x15",
+          "Remada Baixa – 3x15",
+          "Supino Reto + Flexão – 3x12",
+          "Tríceps Pulley + Corda (Biset) – 3x10",
+          "Rosca Martelo + Scott (Biset) – 3x12",
+          "Desenvolvimento Guiado – 3x10",
+          "Abdômen Infra – 3x15"
+        ]
+      },
+      {
+        nome: "Treino C – Posterior / Glúteos",
+        exercicios: [
+          "Flexora em pé – 3x15",
+          "Leg 45° (pés alto) – 3x10",
+          "Cadeira Flexora – 3x10 ↑Peso",
+          "Glúteo Cadeira + Máquina (Biset) – 3x12",
+          "Elevação Pélvica Máquina – 3x10",
+          "Abdução – 3x15",
+          "Panturrilha Vertical – 3x30",
+          "Abdômen Remador – Máx.",
+          "Graviton – 3x15"
+        ]
+      }
+    ];
+
+    const container = document.getElementById('treinosContainer');
+
+    treinos.forEach((treino, tIndex) => {
+      const div = document.createElement('div');
+      div.className = 'treino';
+
+      const h3 = document.createElement('h3');
+      h3.textContent = treino.nome;
+      div.appendChild(h3);
+
+      const ul = document.createElement('ul');
+
+      treino.exercicios.forEach((ex, eIndex) => {
+        const li = document.createElement('li');
+
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        const key = `treino_${tIndex}_ex_${eIndex}`;
+
+        checkbox.checked = localStorage.getItem(key) === 'true';
+
+        checkbox.addEventListener('change', () => {
+          localStorage.setItem(key, checkbox.checked);
+        });
+
+        const label = document.createElement('label');
+        label.textContent = ex;
+
+        li.appendChild(checkbox);
+        li.appendChild(label);
+        ul.appendChild(li);
+      });
+
+      div.appendChild(ul);
+
+      const acoes = document.createElement('div');
+      acoes.className = 'acoes';
+
+      const resetBtn = document.createElement('button');
+      resetBtn.textContent = 'Resetar treino';
+      resetBtn.onclick = () => {
+        treino.exercicios.forEach((_, eIndex) => {
+          localStorage.removeItem(`treino_${tIndex}_ex_${eIndex}`);
+        });
+        location.reload();
+      };
+
+      acoes.appendChild(resetBtn);
+      div.appendChild(acoes);
+
+      container.appendChild(div);
+    });
+  </script>
+
+</body>
+</html>
