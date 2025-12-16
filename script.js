@@ -87,7 +87,16 @@ function resetar(index) {
 }
 
 /* ================= EVOLUÇÃO ================= */
+// Inputs
+const peso = document.getElementById('peso');
+const quadril = document.getElementById('quadril');
+const perna = document.getElementById('perna');
+const braco = document.getElementById('braco');
+const busto = document.getElementById('busto');
+const barriga = document.getElementById('barriga');
+const listaEvolucao = document.getElementById('listarEvolucao');
 
+// Salvar evolução
 function salvarEvolucao() {
   const data = new Date().toLocaleDateString();
   const evolucao = JSON.parse(localStorage.getItem('evolucao')) || [];
@@ -103,21 +112,77 @@ function salvarEvolucao() {
   });
 
   localStorage.setItem('evolucao', JSON.stringify(evolucao));
+
+  limparCampos();
   listarEvolucao();
 }
 
+// Listar evolução (estilo check-in)
 function listarEvolucao() {
   const evolucao = JSON.parse(localStorage.getItem('evolucao')) || [];
-  historico.innerHTML = '';
+  listaEvolucao.innerHTML = '';
 
   evolucao.forEach(e => {
-    historico.innerHTML += `
-      <div>
-        <strong>${e.data}</strong><br>
-        Peso: ${e.peso}kg | Perna: ${e.perna}cm | Braço: ${e.braco}cm
-      </div>`;
+    listaEvolucao.innerHTML += `
+      <hr class="evolucao-hr">
+
+      <div class="evolucao-card">
+
+        <div class="evolucao-linha">
+          <span>📅 Data:</span>
+          <strong>${e.data}</strong>
+        </div>
+
+        <div class="evolucao-linha">
+          <span>⚖️ Peso:</span>
+          <strong>${e.peso || '-'} kg</strong>
+        </div>
+
+        <div class="evolucao-linha">
+          <span>👖 Quadril:</span>
+          <strong>${e.quadril || '-'} cm</strong>
+        </div>
+
+        <div class="evolucao-linha">
+          <span>🏋️ Perna:</span>
+          <strong>${e.perna || '-'} cm</strong>
+        </div>
+
+        <div class="evolucao-linha">
+          <span>💪 Braço:</span>
+          <strong>${e.braco || '-'} cm</strong>
+        </div>
+
+        <div class="evolucao-linha">
+          <span>👚 Busto:</span>
+          <strong>${e.busto || '-'} cm</strong>
+        </div>
+
+        <div class="evolucao-linha">
+          <span>🍏 Barriga:</span>
+          <strong>${e.barriga || '-'} cm</strong>
+        </div>
+
+      </div>
+
+      <hr class="evolucao-hr">
+    `;
   });
 }
+
+// Limpar inputs
+function limparCampos() {
+  peso.value = '';
+  quadril.value = '';
+  perna.value = '';
+  braco.value = '';
+  busto.value = '';
+  barriga.value = '';
+}
+
+// Carregar ao abrir a página
+document.addEventListener('DOMContentLoaded', listarEvolucao);
+
 
 /* ================= CHECK-IN ================= */
 
@@ -194,7 +259,7 @@ function listarCheckins() {
         </div>
 
         <div class="checkin-linha">
-          <span>🔥 KCal:</span>
+          <span>🔥 Kcal:</span>
           <strong>${c.calorias || '-'}</strong>
         </div>
 
@@ -215,81 +280,3 @@ document
   .querySelector("button[onclick=\"abrir('calendario')\"]")
   .addEventListener('click', atualizarDataHora);
 
-/* ================= RESUMO-SEMANAL ================= */
-
-  
-  function abrirResumo() {
-    document.getElementById('resumoSemanal').style.display = 'block';
-    gerarResumoSemanal();
-  }
-  
-  function converterDataBR(dataBR) {
-  if (!dataBR) return null;
-  const [dia, mes, ano] = dataBR.split('/');
-  return new Date(`${ano}-${mes}-${dia}`);
-  }
-  
-  function converterTempoParaMinutos(tempo) {
-  if (!tempo) return 0;
-
-  const partes = tempo.split(':');
-  if (partes.length >= 2) {
-    return Number(partes[0]) * 60 + Number(partes[1]);
-  }
-  return 0;
-}
-
-  function gerarResumoSemanal() {
-  const lista = JSON.parse(localStorage.getItem('checkins')) || [];
-
-  const semanas = {
-    1: { treinos: 0, tempo: 0, kcal: 0 },
-    2: { treinos: 0, tempo: 0, kcal: 0 },
-    3: { treinos: 0, tempo: 0, kcal: 0 },
-    4: { treinos: 0, tempo: 0, kcal: 0 }
-  };
-
-  lista.forEach(c => {
-    const data = converterDataBR(c.data);
-    if (!data) return;
-
-    const dia = data.getDate();
-    let semana = 4;
-
-    if (dia <= 7) semana = 1;
-    else if (dia <= 14) semana = 2;
-    else if (dia <= 21) semana = 3;
-
-    semanas[semana].treinos++;
-    semanas[semana].tempo += converterTempoParaMinutos(c.tempo);
-    semanas[semana].kcal += Number(c.calorias) || 0;
-  });
-
-  const listaSemanas = document.getElementById('listaSemanas');
-  listaSemanas.innerHTML = '';
-
-  for (let i = 1; i <= 4; i++) {
-    const s = semanas[i];
-
-    listaSemanas.innerHTML += `
-      <div class="semana-card">
-        <div class="semana-titulo">Semana ${i}</div>
-        <p>🏋️ Treinos: ${s.treinos}</p>
-        <p>⏱️ Tempo total: ${s.tempo} min</p>
-        <p>🔥 KCal: ${s.kcal}</p>
-      </div>
-    `;
-  }
-}
-
-  
-
-
-
-/* INIT */
-listarCheckins();
-
-/* INIT */
-listarTreinos();
-listarEvolucao();
-listarCheckin();
