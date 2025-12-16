@@ -128,14 +128,13 @@ function atualizarDataHora() {
   const data = agora.toLocaleDateString();
   const hora = agora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-  document.getElementById('dataHora').textContent =
-    `📅 ${data} • ⏰ ${hora}`;
+  dataHora.textContent = `📅 ${data} • ⏰ ${hora}`;
 }
 
-function selecionarHumor(humor) {
+function selecionarHumor(botao, humor) {
   humorSelecionado = humor;
   document.querySelectorAll('.humor button').forEach(b => b.classList.remove('ativo'));
-  event.target.classList.add('ativo');
+  botao.classList.add('ativo');
 }
 
 function salvarCheckin() {
@@ -173,7 +172,7 @@ function listarCheckins() {
     listaDias.innerHTML += `
       <div>
         <strong>${c.data} • ${c.hora}</strong><br>
-        ⏱️ ${c.tempo || '-'} min | 🔥 ${c.calorias || '-'} kcal<br>
+        ⏱️ ${c.tempo || '-'} h | 🔥 ${c.calorias || '-'} kcal<br>
         ${c.humor || ''}<br>
         💬 ${c.comentario || 'Sem comentário'}
       </div>
@@ -182,8 +181,14 @@ function listarCheckins() {
 }
 
 /* ATUALIZAR DATA/HORA AO ABRIR */
-document.querySelector("button[onclick=\"abrir('calendario')\"]")
+document
+  .querySelector("button[onclick=\"abrir('calendario')\"]")
   .addEventListener('click', atualizarDataHora);
+
+/* INIT */
+listarCheckins();
+
+
 
 /* INIT */
 listarCheckins();
