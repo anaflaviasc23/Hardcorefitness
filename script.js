@@ -215,11 +215,76 @@ document
   .querySelector("button[onclick=\"abrir('calendario')\"]")
   .addEventListener('click', atualizarDataHora);
 
+/* ================= RESUMO-SEMANAL ================= */
+
+function abrirResumo() {
+  document.getElementById('resumoSemanal').style.display = 'block';
+  gerarResumoSemanal();
+}
+function gerarResumoSemanal() {
+  const lista = JSON.parse(localStorage.getItem('checkins')) || [];
+  const semanas = {};
+
+  lista.forEach(c => {
+    const data = new Date(c.data.split('/').reverse().join('-'));
+    const semana = Math.ceil(data.getDate() / 7);
+
+    if (!semanas[semana]) {
+      semanas[semana] = {
+        treinos: 0,
+        tempo: 0,
+        kcal: 0
+      };
+    }
+
+    semanas[semana].treinos++;
+    semanas[semana].tempo += converterTempoParaMinutos(c.tempo);
+    semanas[semana].kcal += Number(c.calorias) || 0;
+  });
+
+  const listaSemanas = document.getElementById('listaSemanas');
+  listaSemanas.innerHTML = '';
+
+  for (let s = 1; s <= 4; s++) {
+    const dados = semanas[s] || { treinos: 0, tempo: 0, kcal: 0 };
+
+    listaSemanas.innerHTML += `
+      <div class="semana-card">
+        <div class="semana-titulo">Semana ${s}</div>
+
+        <div class="semana-info">
+          <span>🏋️ Treinos:</span>
+          <strong>${dados.treinos}</strong>
+        </div>
+
+        <div class="semana-info">
+          <span>⏱️ Tempo total:</span>
+          <strong>${dados.tempo} min</strong>
+        </div>
+
+        <div class="semana-info">
+          <span>🔥 KCal:</span>
+          <strong>${dados.kcal}</strong>
+        </div>
+      </div>
+    `;
+  }
+}
+
+function converterTempoParaMinutos(tempo) {
+  if (!tempo) return 0;
+
+  const partes = tempo.split(':');
+  if (partes.length === 3) {
+    return Number(partes[0]) * 60 + Number(partes[1]);
+  }
+  return Number(partes[0]) || 0;
+}
+
 
 
 /* INIT */
 listarCheckins();
-
 
 /* INIT */
 listarTreinos();
