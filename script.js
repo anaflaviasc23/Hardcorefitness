@@ -217,25 +217,48 @@ document
 
 /* ================= RESUMO-SEMANAL ================= */
 
-function abrirResumo() {
-  document.getElementById('resumoSemanal').style.display = 'block';
-  gerarResumoSemanal();
+  
+  function abrirResumo() {
+    document.getElementById('resumoSemanal').style.display = 'block';
+    gerarResumoSemanal();
+  }
+  
+  function converterDataBR(dataBR) {
+  if (!dataBR) return null;
+  const [dia, mes, ano] = dataBR.split('/');
+  return new Date(`${ano}-${mes}-${dia}`);
+  }
+  
+  function converterTempoParaMinutos(tempo) {
+  if (!tempo) return 0;
+
+  const partes = tempo.split(':');
+  if (partes.length >= 2) {
+    return Number(partes[0]) * 60 + Number(partes[1]);
+  }
+  return 0;
 }
-function gerarResumoSemanal() {
+
+  function gerarResumoSemanal() {
   const lista = JSON.parse(localStorage.getItem('checkins')) || [];
-  const semanas = {};
+
+  const semanas = {
+    1: { treinos: 0, tempo: 0, kcal: 0 },
+    2: { treinos: 0, tempo: 0, kcal: 0 },
+    3: { treinos: 0, tempo: 0, kcal: 0 },
+    4: { treinos: 0, tempo: 0, kcal: 0 }
+  };
 
   lista.forEach(c => {
-    const data = new Date(c.data.split('/').reverse().join('-'));
-    const semana = Math.ceil(data.getDate() / 7);
+    const data = converterDataBR(c.data);
+    if (!data) return;
 
-    if (!semanas[semana]) {
-      semanas[semana] = {
-        treinos: 0,
-        tempo: 0,
-        kcal: 0
-      };
-    }
+    const dia = data.getDate();
+    let semana = 4;
+
+    if (dia <= 7) semana = 1;
+    else if (dia <= 14) semana = 2;
+    else if (dia <= 21) semana = 3;
 
     semanas[semana].treinos++;
     semanas[semana].tempo += converterTempoParaMinutos(c.tempo);
@@ -245,41 +268,21 @@ function gerarResumoSemanal() {
   const listaSemanas = document.getElementById('listaSemanas');
   listaSemanas.innerHTML = '';
 
-  for (let s = 1; s <= 4; s++) {
-    const dados = semanas[s] || { treinos: 0, tempo: 0, kcal: 0 };
+  for (let i = 1; i <= 4; i++) {
+    const s = semanas[i];
 
     listaSemanas.innerHTML += `
       <div class="semana-card">
-        <div class="semana-titulo">Semana ${s}</div>
-
-        <div class="semana-info">
-          <span>🏋️ Treinos:</span>
-          <strong>${dados.treinos}</strong>
-        </div>
-
-        <div class="semana-info">
-          <span>⏱️ Tempo total:</span>
-          <strong>${dados.tempo} min</strong>
-        </div>
-
-        <div class="semana-info">
-          <span>🔥 KCal:</span>
-          <strong>${dados.kcal}</strong>
-        </div>
+        <div class="semana-titulo">Semana ${i}</div>
+        <p>🏋️ Treinos: ${s.treinos}</p>
+        <p>⏱️ Tempo total: ${s.tempo} min</p>
+        <p>🔥 KCal: ${s.kcal}</p>
       </div>
     `;
   }
 }
 
-function converterTempoParaMinutos(tempo) {
-  if (!tempo) return 0;
-
-  const partes = tempo.split(':');
-  if (partes.length === 3) {
-    return Number(partes[0]) * 60 + Number(partes[1]);
-  }
-  return Number(partes[0]) || 0;
-}
+  
 
 
 
