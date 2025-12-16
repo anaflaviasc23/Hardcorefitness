@@ -1,26 +1,27 @@
 * {
   box-sizing: border-box;
   font-family: 'Arial', sans-serif;
+  color: #000;
 }
 
 body {
   margin: 0;
-  background: #020617;
-  color: #e5e7eb;
+  background: #ffffff;
 }
 
+/* HEADER */
 header {
   text-align: center;
   padding: 25px;
-  background: #000;
+  background: #ffffff;
   border-bottom: 2px solid #dc2626;
 }
 
 header h1 {
-  color: #dc2626;
   letter-spacing: 2px;
 }
 
+/* MAIN */
 main {
   padding: 20px;
   display: flex;
@@ -28,13 +29,11 @@ main {
   gap: 15px;
 }
 
-
 /* BOTÕES */
 button {
   padding: 16px;
   min-height: 52px;
   background: #ffffff;
-  color: #000000;
   border: 2px solid #dc2626;
   border-radius: 12px;
   font-size: 17px;
@@ -48,6 +47,7 @@ button:active {
   opacity: 0.85;
 }
 
+/* BOTÃO VERMELHO → TEXTO BRANCO */
 button.salvar {
   width: 100%;
   position: sticky;
@@ -56,6 +56,10 @@ button.salvar {
   color: #ffffff;
   border-color: #dc2626;
   box-shadow: 0 6px 12px rgba(220,38,38,.25);
+}
+
+button.salvar * {
+  color: #ffffff;
 }
 
 .voltar {
@@ -85,7 +89,7 @@ button.salvar {
 }
 
 .modal h2 {
-  color: #dc2626;
+  color: #000;
 }
 
 /* INPUTS */
@@ -97,7 +101,6 @@ textarea {
   background: #ffffff;
   border: 1px solid #d1d5db;
   border-radius: 8px;
-  color: #000000;
   font-size: 16px;
 }
 
@@ -141,7 +144,6 @@ input[type="checkbox"] {
 .humor button.ativo {
   background: #fee2e2;
   border-color: #dc2626;
-  color: #dc2626;
 }
 
 /* SEMANA */
@@ -161,11 +163,10 @@ input[type="checkbox"] {
 
 .semana-titulo {
   font-weight: bold;
-  color: #dc2626;
   margin-bottom: 8px;
 }
 
-/* RESPONSIVO EXTRA */
+/* RESPONSIVO */
 @media (max-width: 480px) {
   main {
     padding: 16px;
