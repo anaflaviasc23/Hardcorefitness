@@ -10,7 +10,7 @@
     body {
       font-family: Arial, sans-serif;
       margin: 15px;
-      background: #020617;
+      background: #0c0c0c;;
       color: #e5e7eb;
     }
 
@@ -25,7 +25,7 @@
       margin-bottom: 25px;
       padding: 15px;
       border-radius: 12px;
-      background: #111827;
+      background: rgb(25, 27, 32);;
       border-left: 5px solid #dc2626;
     }
 
@@ -90,58 +90,66 @@
 
 <body>
 
-  <h1>Treinos Ana • 02/2025 💪🔥</h1>
+    <h1>Treinos Ana ☀️💪🏼 </h1>
 
-  <div id="treinosContainer"></div>
+    <div id="treinosContainer"></div>
 
-  <div class="voltar">
-    <a href="index.html">← Voltar para o App</a>
-  </div>
+    <div class="voltar">
+        <a href="index.html">← Voltar</a>
+    </div>
 
-  <script>
-    const treinos = [
-      {
-        nome: "Treino A – Quadríceps / Frente",
-        exercicios: [
-          "Agachamento Squat + Afundo (Biset) – 3x12",
-          "Leg sentado art. (Tijolinho) – 3x15 | 12 | 10",
-          "Leg 45° – 3x10",
-          "Cadeira Extensora uni + total – 3x12",
-          "Hack Guiado – 3x15",
-          "Adução – 3x15",
-          "Abdômen Supra Militar – Máx.",
-          "Graviton – 3x15"
-        ]
-      },
-      {
-        nome: "Treino B – Costas / Peito / Braços",
-        exercicios: [
-          "Graviton – 3x15",
-          "Remada Baixa – 3x15",
-          "Supino Reto + Flexão – 3x12",
-          "Tríceps Pulley + Corda (Biset) – 3x10",
-          "Rosca Martelo + Scott (Biset) – 3x12",
-          "Desenvolvimento Guiado – 3x10",
-          "Abdômen Infra – 3x15"
-        ]
-      },
-      {
-        nome: "Treino C – Posterior / Glúteos",
-        exercicios: [
-          "Flexora em pé – 3x15",
-          "Leg 45° (pés alto) – 3x10",
-          "Cadeira Flexora – 3x10 ↑Peso",
-          "Glúteo Cadeira + Máquina (Biset) – 3x12",
-          "Elevação Pélvica Máquina – 3x10",
-          "Abdução – 3x15",
-          "Panturrilha Vertical – 3x30",
-          "Abdômen Remador – Máx.",
-          "Graviton – 3x15"
-        ]
-      }
-    ];
+    <script>
+        const treinos = [
+            {
+                nome: "Treino A - (Quadriceps/perna frente)",
+                exercicios: [
+                    "Agachamento Squat. Frontal (3X15)",
+                    "Leg 45º (3X12)",
+                    "Cadeira Extensora 3x 12",
+                    "Agachamento livre 3x12",
+                    "Adução 3x20",
+                    "Panturrilha sentado 4x12"
+                ]
+            },
+            {
+                nome: "Treino B - (Costas/Biceps)",
+                exercicios: [
+                    "Puxada Alta unilateral (3x15)",
+                    "Remada baixa pegada neutra (3x15)",
+                    "Remada Articulada (3x12)",
+                    "Puxada Triângulo (3x12)",
+                    "Rosca direta + Martelo (3x10)",
+                    "Rosca Superman (3x10)",
+                    "Elevação lateral (3x10)"
+                ]
+            },
+            {
+                nome: "Treino C - (Posterior/gluteos)",
+                exercicios: [
+                    "Agachamento Sumo (3x15)",
+                    "Mesa Flexora(deitado) - (3x12)",
+                    "Leg Deitado (3x15)",
+                    "Cadeira Flexora (3x15)",
+                    "Elevação Pélvica (3x12)",
+                    "Abdução (3x20)",
+                ]
+            },
+            {
+                nome: "Treino D - (Peitoral / Ombro / Triceps)",
+                exercicios: [
+                    "Supino reto art. (3x12)",
+                    "Supino inclinado (3x12)",
+                    "Triceps Francês Maquina (3x10)",
+                    "Tríceps pulley (3x12)",
+                    "Elevação frontal (3x10)",
+                    "Desenvolvimento LIVRE (3x10)",
+                    "Voador (3x10)",
+                    "Triceps Máquina Paralela (3x15)"
+                ] 
+            }
+        ];
 
-    const container = document.getElementById('treinosContainer');
+        const container = document.getElementById('treinosContainer');
 
     treinos.forEach((treino, tIndex) => {
       const div = document.createElement('div');
@@ -193,7 +201,8 @@
 
       container.appendChild(div);
     });
-  </script>
+    </script>
 
 </body>
+
 </html>
