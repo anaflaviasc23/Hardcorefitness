@@ -170,23 +170,50 @@ function listarCheckins() {
 
   lista.forEach(c => {
     listaDias.innerHTML += `
-      <div>
-        <strong>${c.data} • ${c.hora}</strong><br>
-        ⏱️ ${c.tempo || '-'} h | 🔥 ${c.calorias || '-'} kcal<br>
-        ${c.humor || ''}<br>
-        💬 ${c.comentario || 'Sem comentário'}
+      <hr class="checkin-hr">
+
+      <div class="checkin-card">
+
+        <div class="checkin-comentario">
+          💬 ${c.comentario || 'Sem comentário'}
+        </div>
+
+        <div class="checkin-linha">
+          <span>📅 Data:</span>
+          <strong>${c.data}</strong>
+        </div>
+
+        <div class="checkin-linha">
+          <span>⏰ Horário Check in:</span>
+          <strong>${c.hora}</strong>
+        </div>
+
+        <div class="checkin-linha">
+          <span>⏱️ Tempo:</span>
+          <strong>${c.tempo || '-'}</strong>
+        </div>
+
+        <div class="checkin-linha">
+          <span>🔥 KCal:</span>
+          <strong>${c.calorias || '-'}</strong>
+        </div>
+
+        <div class="checkin-intensidade">
+          Intensidade: ${c.humor || '-'}
+        </div>
+
       </div>
+
+      <hr class="checkin-hr">
     `;
   });
 }
+
 
 /* ATUALIZAR DATA/HORA AO ABRIR */
 document
   .querySelector("button[onclick=\"abrir('calendario')\"]")
   .addEventListener('click', atualizarDataHora);
-
-/* INIT */
-listarCheckins();
 
 
 
