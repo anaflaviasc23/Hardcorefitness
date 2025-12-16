@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Dieta Semanal Interativa e com Progresso</title>
+
+    <style>
+        /* 1. Reset básico e Mobile First (padrão para celular) */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #0c0c0c;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .cabecalho {
+            background-color: #4CAF50;
+            /* Verde vibrante */
+            color: #161616;
+            ;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* Estilos do Painel de Progresso */
+        #painel-progresso {
+            background-color: #525252;
+            /* Azul claro para destaque */
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            text-align: center;
+            border: 1px solid #ffffff;
+        }
+
+        #painel-progresso h2 {
+            color: #15ff00;
+            margin-bottom: 0.5rem;
+        }
+
+        #barra-progresso-container {
+            background-color: #ccc;
+            height: 20px;
+            border-radius: 10px;
+            margin: 10px 0;
+            overflow: hidden;
+        }
+
+        #barra-progresso {
+            height: 100%;
+            background-color: #4CAF50;
+            /* Verde */
+            transition: width 0.5s ease-in-out;
+            /* Transição suave */
+        }
+
+        #contador-concluidas,
+        #porcentagem-progresso {
+            font-weight: bold;
+            color: #2b7e1a;
+        }
+
+        /* Estilo para o cartão de cada dia */
+        .dia-dieta {
+            background-color: rgb(27, 27, 27);
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #4CAF50;
+        }
+
+        .titulo-dia {
+            color: #388E3C;
+            /* Verde escuro */
+            margin-bottom: 1rem;
+            border-bottom: 1px dashed #ccc;
+            padding-bottom: 0.5rem;
+        }
+
+        .lista-refeicoes {
+            list-style: none;
+        }
+
+        .refeicao {
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background-color: #3d3d3d;
+            /* Fundo suave para cada refeição */
+            border-radius: 4px;
+        }
+
+        .tipo-refeicao {
+            font-size: 1.1rem;
+            color: #ffffff;
+            /* Cor de destaque para o tipo de refeição */
+            margin-bottom: 0.3rem;
+        }
+
+        .alimento {
+            font-size: 0.95rem;
+        }
+
+        /* --- ESTILOS DE INTERAÇÃO --- */
+        .btn-check {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            margin-top: 0.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        .btn-check:hover:not(:disabled) {
+            background-color: #45a049;
+        }
+
+        .btn-check:disabled {
+            background-color: #9E9E9E;
+            /* Cor cinza para desabilitado */
+            cursor: default;
+        }
+
+        /* Estilo para a refeição marcada como feita */
+        .refeicao.feito {
+            background-color: #d4edda;
+            /* Fundo verde claro */
+            border-left: 5px solid #155724;
+            /* Borda verde escura */
+            opacity: 0.7;
+            /* Diminui a opacidade para parecer "concluída" */
+        }
+
+        /* --- RODAPÉ E BOTÃO DE RESET --- */
+        .rodape {
+            text-align: center;
+            padding: 1rem;
+            background-color: #333;
+            color: #f4f4f9;
+            font-size: 0.8rem;
+            margin-top: 2rem;
+        }
+
+        #btn-reset-dieta {
+            background-color: #D32F2F;
+            /* Vermelho de aviso */
+            color: white;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            margin-bottom: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s;
+            font-size: 0.9rem;
+        }
+
+        #btn-reset-dieta:hover {
+            background-color: #C62828;
+        }
+
+        /* 2. Media Query para telas maiores (Responsividade) */
+        @media (min-width: 768px) {
+            .container {
+                display: grid;
+                /* Cria colunas responsivas para os dias */
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+
+            /* Exceção: O Painel de Progresso ocupa a largura total no desktop */
+            #painel-progresso {
+                grid-column: 1 / -1;
+            }
+
+            .dia-dieta {
+                transition: transform 0.3s ease;
+            }
+
+            .dia-dieta:hover {
+                transform: translateY(-5px);
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <header class="cabecalho">
+        <h1>Meu Plano de Dieta Semanal 🥗</h1>
+    </header>
+
+    <main class="container">
+
+        <div id="painel-progresso">
+            <h2>Progresso Semanal</h2>
+            <p>Refeições Concluídas: <span id="contador-concluidas">0/0</span></p>
+            <div id="barra-progresso-container">
+                <div id="barra-progresso" style="width: 0%;"></div>
+            </div>
+            <p id="porcentagem-progresso">0% Concluído</p>
+        </div>
+
+        <section class="dia-dieta">
+            <h2 class="titulo-dia">Segunda-feira</h2>
+            <ul class="lista-refeicoes" data-dia="segunda">
+                <li class="refeicao" data-refeicao="manha">
+                    <h3 class="tipo-refeicao">Café da Manhã</h3>
+                    <p class="alimento">Ovos mexidos, pão integral e café sem açúcar.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="almoco">
+                    <h3 class="tipo-refeicao">Almoço</h3>
+                    <p class="alimento">Frango grelhado, arroz integral e salada de folhas.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="jantar">
+                    <h3 class="tipo-refeicao">Jantar</h3>
+                    <p class="alimento">Sopa de legumes e um iogurte natural.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+            </ul>
+        </section>
+
+        <section class="dia-dieta">
+            <h2 class="titulo-dia">Terça-feira</h2>
+            <ul class="lista-refeicoes" data-dia="terca">
+                <li class="refeicao" data-refeicao="manha">
+                    <h3 class="tipo-refeicao">Café da Manhã</h3>
+                    <p class="alimento">Vitamina de frutas com aveia.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="almoco">
+                    <h3 class="tipo-refeicao">Almoço</h3>
+                    <p class="alimento">Peixe assado com batata doce e brócolis.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="jantar">
+                    <h3 class="tipo-refeicao">Jantar</h3>
+                    <p class="alimento">Omelete com queijo e tomate.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+            </ul>
+        </section>
+
+
+        <section class="dia-dieta">
+            <h2 class="titulo-dia">Quarta-feira</h2>
+            <ul class="lista-refeicoes" data-dia="quarta">
+                <li class="refeicao" data-refeicao="manha">
+                    <h3 class="tipo-refeicao">Café da Manhã</h3>
+                    <p class="alimento">Iogurte grego, granola e mel.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="almoco">
+                    <h3 class="tipo-refeicao">Almoço</h3>
+                    <p class="alimento">Carne moída refogada com abobrinha e purê de batata-doce.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="jantar">
+                    <h3 class="tipo-refeicao">Jantar</h3>
+                    <p class="alimento">Wrap de frango com alface e cream cheese light.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+            </ul>
+        </section>
+
+        <section class="dia-dieta">
+            <h2 class="titulo-dia">Quinta-feira</h2>
+            <ul class="lista-refeicoes" data-dia="quinta">
+                <li class="refeicao" data-refeicao="manha">
+                    <h3 class="tipo-refeicao">Café da Manhã</h3>
+                    <p class="alimento">Tapioca com queijo cottage e suco de laranja natural.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="almoco">
+                    <h3 class="tipo-refeicao">Almoço</h3>
+                    <p class="alimento">Salmão grelhado, quinoa e aspargos.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="jantar">
+                    <h3 class="tipo-refeicao">Jantar</h3>
+                    <p class="alimento">Salada completa (ovos, atum, tomate, pepino) e azeite.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+            </ul>
+        </section>
+
+        <section class="dia-dieta">
+            <h2 class="titulo-dia">Sexta-feira</h2>
+            <ul class="lista-refeicoes" data-dia="sexta">
+                <li class="refeicao" data-refeicao="manha">
+                    <h3 class="tipo-refeicao">Café da Manhã</h3>
+                    <p class="alimento">Panqueca de banana e aveia com canela.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="almoco">
+                    <h3 class="tipo-refeicao">Almoço</h3>
+                    <p class="alimento">Bife de alcatra, feijão e legumes cozidos.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="jantar">
+                    <h3 class="tipo-refeicao">Jantar</h3>
+                    <p class="alimento">Pizza low carb (massa de couve-flor) com recheio de legumes.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+            </ul>
+        </section>
+
+        <section class="dia-dieta">
+            <h2 class="titulo-dia">Sábado</h2>
+            <ul class="lista-refeicoes" data-dia="sabado">
+                <li class="refeicao" data-refeicao="manha">
+                    <h3 class="tipo-refeicao">Café da Manhã</h3>
+                    <p class="alimento">Frutas picadas (melancia, morango e manga).</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="almoco">
+                    <h3 class="tipo-refeicao">Almoço</h3>
+                    <p class="alimento">Aproveitamento de sobras (refeição livre, mas saudável).</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+                <li class="refeicao" data-refeicao="jantar">
+                    <h3 class="tipo-refeicao">Jantar</h3>
+                    <p class="alimento">Sanduíche natural no pão sírio com peito de peru e queijo branco.</p>
+                    <button class="btn-check">✔️ Marcar como Feito</button>
+                </li>
+            </ul>
+        </section>
+
+
+    </main>
+
+    <footer class="rodape">
+        <button id="btn-reset-dieta">🔄 Reset Semanal</button>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const botoesCheck = document.querySelectorAll('.btn-check');
+            const todasRefeicoes = document.querySelectorAll('.refeicao');
+            const totalRefeicoes = todasRefeicoes.length;
+
+            // Seleciona elementos do painel de progresso
+            const contadorConcluidas = document.getElementById('contador-concluidas');
+            const barraProgresso = document.getElementById('barra-progresso');
+            const porcentagemProgresso = document.getElementById('porcentagem-progresso');
+
+            // 1. FUNÇÃO PARA CONTAR E ATUALIZAR O VISUAL DO PROGRESSO
+            function atualizarProgresso(estadoSalvo) {
+                let concluidas = 0;
+
+                if (estadoSalvo) {
+                    for (const chave in estadoSalvo) {
+                        if (estadoSalvo[chave] === true) {
+                            concluidas++;
+                        }
+                    }
+                }
+
+                const porcentagem = totalRefeicoes > 0 ? Math.round((concluidas / totalRefeicoes) * 100) : 0;
+
+                // Atualiza o HTML
+                contadorConcluidas.textContent = `${concluidas}/${totalRefeicoes}`;
+                barraProgresso.style.width = `${porcentagem}%`;
+                porcentagemProgresso.textContent = `${porcentagem}% Concluído`;
+            }
+
+            // 2. FUNÇÃO PARA CARREGAR O ESTADO SALVO
+            function carregarEstado() {
+                const estadoSalvoJSON = localStorage.getItem('statusDieta');
+                const estadoSalvo = estadoSalvoJSON ? JSON.parse(estadoSalvoJSON) : {};
+
+                botoesCheck.forEach(botao => {
+                    const refeicaoElement = botao.closest('.refeicao');
+                    const dia = refeicaoElement.closest('[data-dia]').dataset.dia;
+                    const refeicao = refeicaoElement.dataset.refeicao;
+                    const chave = `${dia}-${refeicao}`;
+
+                    if (estadoSalvo[chave] === true) {
+                        refeicaoElement.classList.add('feito');
+                        botao.textContent = '✅ Refeição Feita';
+                        botao.disabled = true;
+                    }
+                });
+
+                // Atualiza o progresso após carregar
+                atualizarProgresso(estadoSalvo);
+            }
+
+            // 3. ADICIONA EVENTO DE CLIQUE AOS BOTÕES
+            botoesCheck.forEach(botao => {
+                botao.addEventListener('click', (e) => {
+                    const botaoClicado = e.target;
+                    const refeicaoElement = botaoClicado.closest('.refeicao');
+
+                    const dia = refeicaoElement.closest('[data-dia]').dataset.dia;
+                    const refeicao = refeicaoElement.dataset.refeicao;
+                    const chave = `${dia}-${refeicao}`;
+
+                    // Marca visualmente
+                    refeicaoElement.classList.add('feito');
+                    botaoClicado.textContent = '✅ Refeição Feita';
+                    botaoClicado.disabled = true;
+
+                    // Salva e atualiza o progresso
+                    salvarEstado(chave);
+                });
+            });
+
+            // 4. FUNÇÃO PARA SALVAR O ESTADO NO LOCAL STORAGE
+            function salvarEstado(chave) {
+                let estado = localStorage.getItem('statusDieta');
+                estado = estado ? JSON.parse(estado) : {};
+                estado[chave] = true;
+
+                localStorage.setItem('statusDieta', JSON.stringify(estado));
+
+                // Atualiza o progresso após salvar
+                atualizarProgresso(estado);
+            }
+
+            // 5. FUNÇÃO PARA RESETAR A DIETA
+            const btnReset = document.getElementById('btn-reset-dieta');
+            if (btnReset) {
+                btnReset.addEventListener('click', () => {
+                    if (confirm("Tem certeza que deseja resetar a dieta? Todo o progresso de marcações será perdido.")) {
+                        localStorage.removeItem('statusDieta');
+                        window.location.reload();
+                    }
+                });
+            }
+
+            // Inicia a aplicação
+            carregarEstado();
+        });
+
+    </script>
+    
+</body>
+
+</html>
