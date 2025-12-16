@@ -9,18 +9,28 @@ body {
   color: #e5e7eb;
 }
 
-header {
-  padding: 25px;
+.header {
   text-align: center;
-  background: #000;
-  border-bottom: 2px solid #dc2626;
+  padding: 20px;
 }
 
-header h1 {
-  color: #dc2626;
-  letter-spacing: 2px;
-  margin-bottom: 5px;
+.logo {
+  width: 100%;
+  max-width: 220px; /* controla o tamanho no celular */
+  height: auto;
+  margin-bottom: 10px;
 }
+
+h1 {
+  margin: 5px 0;
+  font-size: 24px;
+}
+
+span {
+  font-size: 14px;
+  color: #555;
+}
+
 
 main {
   padding: 20px;
