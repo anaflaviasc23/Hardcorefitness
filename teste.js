@@ -106,3 +106,77 @@ function formatarTempo(segundos) {
 /* ================= INIT ================= */
 
 document.addEventListener('DOMContentLoaded', pedirPermissaoNotificacao);
+
+/* ================= CHECK-IN AUTOMÁTICO (TESTE) ================= */
+
+let treinoAtivo = null;
+let humorFinal = '';
+
+function iniciarTreino() {
+  const agora = new Date();
+
+  treinoAtivo = {
+    inicio: agora.toLocaleString(),
+    fim: null,
+    kcal: '',
+    comentario: '',
+    intensidade: ''
+  };
+
+  document.getElementById('inicioTreino').textContent =
+    `🏁 Início: ${treinoAtivo.inicio}`;
+
+  document.getElementById('btnFinalizar').disabled = false;
+}
+
+function finalizarTreino() {
+  treinoAtivo.fim = new Date().toLocaleString();
+  document.getElementById('finalizacao').style.display = 'block';
+}
+
+function selecionarHumor(btn, humor) {
+  humorFinal = humor;
+  document.querySelectorAll('.humor button')
+    .forEach(b => b.classList.remove('ativo'));
+  btn.classList.add('ativo');
+}
+
+function salvarTreino() {
+  treinoAtivo.kcal = document.getElementById('kcal').value;
+  treinoAtivo.comentario = document.getElementById('comentario').value;
+  treinoAtivo.intensidade = humorFinal;
+
+  const lista = JSON.parse(localStorage.getItem('checkinsTeste')) || [];
+  lista.unshift(treinoAtivo);
+  localStorage.setItem('checkinsTeste', JSON.stringify(lista));
+
+  resetarTreino();
+  listarCheckinsTeste();
+}
+
+function resetarTreino() {
+  treinoAtivo = null;
+  humorFinal = '';
+
+  document.getElementById('finalizacao').style.display = 'none';
+  document.getElementById('btnFinalizar').disabled = true;
+  document.getElementById('inicioTreino').textContent = '';
+}
+function listarCheckinsTeste() {
+  const lista = JSON.parse(localStorage.getItem('checkinsTeste')) || [];
+  const container = document.getElementById('listaTreinosTeste');
+
+  container.innerHTML = '';
+
+  lista.forEach(t => {
+    container.innerHTML += `
+      <hr>
+      <strong>${t.inicio}</strong><br>
+      ⏹ Fim: ${t.fim}<br>
+      🔥 ${t.kcal || '-'} kcal<br>
+      Intensidade: ${t.intensidade || '-'}<br>
+      💬 ${t.comentario || '-'}
+      <hr>
+    `;
+  });
+}
