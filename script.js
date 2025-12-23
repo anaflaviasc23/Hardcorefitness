@@ -87,6 +87,7 @@ function resetar(index) {
 }
 
 /* ================= EVOLUÇÃO ================= */
+
 // Inputs
 const peso = document.getElementById('peso');
 const quadril = document.getElementById('quadril');
@@ -96,12 +97,12 @@ const busto = document.getElementById('busto');
 const barriga = document.getElementById('barriga');
 const listaEvolucao = document.getElementById('listarEvolucao');
 
-// Salvar evolução
+/* ===== Salvar evolução ===== */
 function salvarEvolucao() {
   const data = new Date().toLocaleDateString();
   const evolucao = JSON.parse(localStorage.getItem('evolucao')) || [];
 
-  evolucao.push({
+  evolucao.unshift({
     data,
     peso: peso.value,
     quadril: quadril.value,
@@ -117,10 +118,25 @@ function salvarEvolucao() {
   listarEvolucao();
 }
 
-// Listar evolução (estilo check-in)
+/* ===== Mostrar / esconder evolução ===== */
+function toggleEvolucao() {
+  if (listaEvolucao.style.display === 'none' || listaEvolucao.style.display === '') {
+    listaEvolucao.style.display = 'block';
+    listarEvolucao();
+  } else {
+    listaEvolucao.style.display = 'none';
+  }
+}
+
+/* ===== Listar evolução (layout estilo check-in) ===== */
 function listarEvolucao() {
   const evolucao = JSON.parse(localStorage.getItem('evolucao')) || [];
   listaEvolucao.innerHTML = '';
+
+  if (evolucao.length === 0) {
+    listaEvolucao.innerHTML = '<p>Nenhum registro de evolução.</p>';
+    return;
+  }
 
   evolucao.forEach(e => {
     listaEvolucao.innerHTML += `
@@ -170,7 +186,7 @@ function listarEvolucao() {
   });
 }
 
-// Limpar inputs
+/* ===== Limpar inputs ===== */
 function limparCampos() {
   peso.value = '';
   quadril.value = '';
@@ -180,8 +196,9 @@ function limparCampos() {
   barriga.value = '';
 }
 
-// Carregar ao abrir a página
-document.addEventListener('DOMContentLoaded', listarEvolucao);
+/* ===== INIT ===== */
+listarEvolucao();
+
 
 
 /* ================= CHECK-IN ================= */
