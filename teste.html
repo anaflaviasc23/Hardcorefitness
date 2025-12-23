@@ -11,6 +11,44 @@
 
   <h1>🧪 Hardcore Fitness — Área de Testes</h1>
 
+  <!-- MODAL TESTE - TREINO CRONOMETRADO -->
+<div class="modal" id="treinoTeste">
+
+  <h2>🏋️ Treino (Teste)</h2>
+
+  <p id="cronometroTeste">00:00:00</p>
+
+  <button id="btnIniciarTeste" onclick="iniciarTreinoTeste()">▶ Iniciar</button>
+  <button id="btnPausarTeste" onclick="pausarTreinoTeste()" disabled>⏸ Pausar</button>
+  <button id="btnFinalizarTeste" onclick="finalizarTreinoTeste()" disabled>⏹ Finalizar</button>
+
+  <div id="dadosFinaisTeste" style="display:none;">
+
+    <input id="kcalTeste" placeholder="Kcal gastas">
+    <textarea id="comentarioTeste" placeholder="Comentário do treino"></textarea>
+
+    <p>Intensidade:</p>
+    <div class="humor">
+      <button onclick="selecionarHumorTeste(this, 'Difícil 😭')">😭</button>
+      <button onclick="selecionarHumorTeste(this, 'Intenso 🔥')">🔥</button>
+      <button onclick="selecionarHumorTeste(this, 'Tranquilo 😌')">😌</button>
+      <button onclick="selecionarHumorTeste(this, 'Suave 🥰')">🥰</button>
+    </div>
+
+    <button class="salvar" onclick="salvarTreinoTeste()">💾 Salvar treino</button>
+  </div>
+
+  <br>
+  <div id="listaTreinosTeste"></div>
+
+  <br>
+  <button class="voltar" onclick="fechar()">Voltar</button>
+</div>
+
+  
+  
+  
+  
   <!-- BOTÃO PARA TREINO COM SÉRIES -->
   <button onclick="abrirTeste()">🏋️ Treino com Séries + Descanso</button>
 
