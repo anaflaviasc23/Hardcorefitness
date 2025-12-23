@@ -229,6 +229,8 @@ function salvarCheckin() {
   listarCheckins();
 }
 
+/* ================= LISTAR CHECK-INS ================= */
+
 function listarCheckins() {
   const lista = JSON.parse(localStorage.getItem('checkins')) || [];
   listaDias.innerHTML = '';
@@ -273,6 +275,59 @@ function listarCheckins() {
     `;
   });
 }
+
+/* ================= VISUALIZAR TREINOS SALVOS ================= */
+
+function toggleTreinos() {
+  const div = document.getElementById('treinosSalvos');
+
+  if (div.style.display === 'none' || div.style.display === '') {
+    div.style.display = 'block';
+    listarTreinosSalvos();
+  } else {
+    div.style.display = 'none';
+  }
+}
+
+function listarTreinosSalvos() {
+  const container = document.getElementById('treinosSalvos');
+  const treinos = JSON.parse(localStorage.getItem('treinos')) || [];
+
+  container.innerHTML = '';
+
+  if (treinos.length === 0) {
+    container.innerHTML = '<p>Nenhum treino cadastrado.</p>';
+    return;
+  }
+
+  treinos.forEach(t => {
+    let html = `
+      <div class="treino-card">
+        <h3>${t.nome}</h3>
+        <ul>
+    `;
+
+    t.exercicios.forEach(ex => {
+      html += `<li>✔️ ${ex}</li>`;
+    });
+
+    html += `
+        </ul>
+      </div>
+    `;
+
+    container.innerHTML += html;
+  });
+}
+
+/* ================= INIT ================= */
+
+document
+  .querySelector("button[onclick=\"abrir('calendario')\"]")
+  .addEventListener('click', atualizarDataHora);
+
+listarCheckins();
+
 
 
 /* ATUALIZAR DATA/HORA AO ABRIR */
