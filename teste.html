@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <title>Hardcore Fitness — Testes</title>
+  <title>Hardcore Fitness • Testes</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
   <link rel="stylesheet" href="teste.css">
@@ -11,68 +11,27 @@
 
   <h1>🧪 Hardcore Fitness — Área de Testes</h1>
 
-  <!-- MODAL TESTE - TREINO CRONOMETRADO -->
-<div class="modal" id="treinoTeste">
+  <button class="abrir" onclick="abrirModal()">🏋️ Abrir Treino Teste</button>
 
-  <h2>🏋️ Treino (Teste)</h2>
-  
-  <button onclick="abrir('treinoTeste')">🧪 Testar treino cronometrado</button>
-
-  <p id="cronometroTeste">00:00:00</p>
-
-  <button id="btnIniciarTeste" onclick="iniciarTreinoTeste()">▶ Iniciar</button>
-  <button id="btnPausarTeste" onclick="pausarTreinoTeste()" disabled>⏸ Pausar</button>
-  <button id="btnFinalizarTeste" onclick="finalizarTreinoTeste()" disabled>⏹ Finalizar</button>
-
-  <div id="dadosFinaisTeste" style="display:none;">
-
-    <input id="kcalTeste" placeholder="Kcal gastas">
-    <textarea id="comentarioTeste" placeholder="Comentário do treino"></textarea>
-
-    <p>Intensidade:</p>
-    <div class="humor">
-      <button onclick="selecionarHumorTeste(this, 'Difícil 😭')">😭</button>
-      <button onclick="selecionarHumorTeste(this, 'Intenso 🔥')">🔥</button>
-      <button onclick="selecionarHumorTeste(this, 'Tranquilo 😌')">😌</button>
-      <button onclick="selecionarHumorTeste(this, 'Suave 🥰')">🥰</button>
-    </div>
-    
-
-    <button class="salvar" onclick="salvarTreinoTeste()">💾 Salvar treino</button>
-  </div>
-
-  <br>
-  <div id="listaTreinosTeste"></div>
-
-  <br>
-  <button class="voltar" onclick="fechar()">Voltar</button>
-</div>
-
-  
-  
-  
-  
-  <!-- BOTÃO PARA TREINO COM SÉRIES -->
-  <button onclick="abrirTeste()">🏋️ Treino com Séries + Descanso</button>
-
-  <!-- MODAL DE TESTE -->
-  <div class="modal" id="modalTeste">
+  <!-- MODAL -->
+  <div class="modal" id="modalTreino">
 
     <h2>Treino Teste — Pernas</h2>
 
+    <!-- EXERCÍCIO -->
     <div class="exercicio" data-id="agachamento">
-      <p>Agachamento — 3x10</p>
+      <p>Agachamento Livre — 3x10</p>
 
       <div class="series">
-        <span onclick="marcarSerie('agachamento', 1)">●</span>
-        <span onclick="marcarSerie('agachamento', 2)">●</span>
-        <span onclick="marcarSerie('agachamento', 3)">●</span>
+        <span onclick="marcarSerie('agachamento',1)">●</span>
+        <span onclick="marcarSerie('agachamento',2)">●</span>
+        <span onclick="marcarSerie('agachamento',3)">●</span>
       </div>
 
       <div class="descanso" id="descanso-agachamento"></div>
     </div>
 
-    <button onclick="fecharTeste()">Fechar</button>
+    <button class="fechar" onclick="fecharModal()">Fechar</button>
   </div>
 
   <script src="teste.js"></script>
