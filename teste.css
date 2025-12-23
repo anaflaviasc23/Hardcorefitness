@@ -35,3 +35,17 @@ body {
   color: #22c55e;
   font-weight: bold;
 }
+
+#cronometroTeste {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  margin: 15px 0;
+  color: #ef4444;
+}
+
+#treinoTeste button {
+  width: 100%;
+  margin-top: 8px;
+}
+
