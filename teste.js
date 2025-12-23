@@ -1,3 +1,123 @@
+/* ================= TREINO TESTE (ISOLADO) ================= */
+
+let tempoTeste = 0;
+let cronometroTeste = null;
+let pausado = false;
+let humorTeste = '';
+
+function iniciarTreinoTeste() {
+  tempoTeste = 0;
+  pausado = false;
+
+  document.getElementById('cronometroTeste').textContent = '00:00:00';
+
+  cronometroTeste = setInterval(() => {
+    tempoTeste++;
+    document.getElementById('cronometroTeste').textContent = formatarTempoTeste(tempoTeste);
+  }, 1000);
+
+  btnIniciarTeste.disabled = true;
+  btnPausarTeste.disabled = false;
+  btnFinalizarTeste.disabled = false;
+}
+
+function pausarTreinoTeste() {
+  if (!pausado) {
+    clearInterval(cronometroTeste);
+    pausado = true;
+    btnPausarTeste.textContent = '▶ Retomar';
+  } else {
+    cronometroTeste = setInterval(() => {
+      tempoTeste++;
+      cronometroTesteDisplay();
+    }, 1000);
+
+    pausado = false;
+    btnPausarTeste.textContent = '⏸ Pausar';
+  }
+}
+
+function cronometroTesteDisplay() {
+  document.getElementById('cronometroTeste').textContent =
+    formatarTempoTeste(tempoTeste);
+}
+
+function finalizarTreinoTeste() {
+  clearInterval(cronometroTeste);
+  document.getElementById('dadosFinaisTeste').style.display = 'block';
+}
+
+function selecionarHumorTeste(botao, humor) {
+  humorTeste = humor;
+  document.querySelectorAll('#treinoTeste .humor button')
+    .forEach(b => b.classList.remove('ativo'));
+  botao.classList.add('ativo');
+}
+
+function salvarTreinoTeste() {
+  const agora = new Date();
+
+  const treino = {
+    data: agora.toLocaleDateString(),
+    hora: agora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+    tempo: formatarTempoTeste(tempoTeste),
+    kcal: document.getElementById('kcalTeste').value,
+    comentario: document.getElementById('comentarioTeste').value,
+    intensidade: humorTeste
+  };
+
+  const lista = JSON.parse(localStorage.getItem('treinosTeste')) || [];
+  lista.unshift(treino);
+  localStorage.setItem('treinosTeste', JSON.stringify(lista));
+
+  resetarTreinoTeste();
+  listarTreinosTeste();
+}
+
+function listarTreinosTeste() {
+  const lista = JSON.parse(localStorage.getItem('treinosTeste')) || [];
+  const container = document.getElementById('listaTreinosTeste');
+
+  container.innerHTML = '';
+
+  lista.forEach(t => {
+    container.innerHTML += `
+      <hr>
+      <strong>${t.data} • ${t.hora}</strong><br>
+      ⏱️ ${t.tempo}<br>
+      🔥 ${t.kcal || '-'} kcal<br>
+      Intensidade: ${t.intensidade || '-'}<br>
+      💬 ${t.comentario || 'Sem comentário'}
+      <hr>
+    `;
+  });
+}
+
+function resetarTreinoTeste() {
+  tempoTeste = 0;
+  humorTeste = '';
+  pausado = false;
+
+  document.getElementById('dadosFinaisTeste').style.display = 'none';
+  document.getElementById('kcalTeste').value = '';
+  document.getElementById('comentarioTeste').value = '';
+
+  btnIniciarTeste.disabled = false;
+  btnPausarTeste.disabled = true;
+  btnFinalizarTeste.disabled = true;
+  btnPausarTeste.textContent = '⏸ Pausar';
+}
+
+function formatarTempoTeste(seg) {
+  const h = String(Math.floor(seg / 3600)).padStart(2, '0');
+  const m = String(Math.floor((seg % 3600) / 60)).padStart(2, '0');
+  const s = String(seg % 60).padStart(2, '0');
+  return `${h}:${m}:${s}`;
+}
+
+/* carregar histórico do teste */
+document.addEventListener('DOMContentLoaded', listarTreinosTeste);
+
 /* ================= TESTES TREINO ================= */
 
 const tempoDescansoPadrao = 120; // 2 min
