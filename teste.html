@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Hardcore Fitness — Testes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="teste.css">
+</head>
+<body>
+
+  <h1>🧪 Hardcore Fitness — Área de Testes</h1>
+
+  <!-- BOTÃO PARA TREINO COM SÉRIES -->
+  <button onclick="abrirTeste()">🏋️ Treino com Séries + Descanso</button>
+
+  <!-- MODAL DE TESTE -->
+  <div class="modal" id="modalTeste">
+
+    <h2>Treino Teste — Pernas</h2>
+
+    <div class="exercicio" data-id="agachamento">
+      <p>Agachamento — 3x10</p>
+
+      <div class="series">
+        <span onclick="marcarSerie('agachamento', 1)">●</span>
+        <span onclick="marcarSerie('agachamento', 2)">●</span>
+        <span onclick="marcarSerie('agachamento', 3)">●</span>
+      </div>
+
+      <div class="descanso" id="descanso-agachamento"></div>
+    </div>
+
+    <button onclick="fecharTeste()">Fechar</button>
+  </div>
+
+  <script src="teste.js"></script>
+</body>
+</html>
