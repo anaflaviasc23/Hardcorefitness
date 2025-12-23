@@ -107,6 +107,7 @@ function formatarTempo(segundos) {
 
 document.addEventListener('DOMContentLoaded', pedirPermissaoNotificacao);
 
+
 /* ================= CHECK-IN AUTOMÁTICO (TESTE) ================= */
 
 let treinoAtivo = null;
@@ -162,6 +163,7 @@ function resetarTreino() {
   document.getElementById('btnFinalizar').disabled = true;
   document.getElementById('inicioTreino').textContent = '';
 }
+
 function listarCheckinsTeste() {
   const lista = JSON.parse(localStorage.getItem('checkinsTeste')) || [];
   const container = document.getElementById('listaTreinosTeste');
@@ -180,3 +182,4 @@ function listarCheckinsTeste() {
     `;
   });
 }
+
