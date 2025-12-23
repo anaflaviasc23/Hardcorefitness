@@ -1,137 +1,20 @@
-/* ================= TREINO TESTE (ISOLADO) ================= */
+/* ================= CONFIG ================= */
 
-let tempoTeste = 0;
-let cronometroTeste = null;
-let pausado = false;
-let humorTeste = '';
-
-function iniciarTreinoTeste() {
-  tempoTeste = 0;
-  pausado = false;
-
-  document.getElementById('cronometroTeste').textContent = '00:00:00';
-
-  cronometroTeste = setInterval(() => {
-    tempoTeste++;
-    document.getElementById('cronometroTeste').textContent = formatarTempoTeste(tempoTeste);
-  }, 1000);
-
-  btnIniciarTeste.disabled = true;
-  btnPausarTeste.disabled = false;
-  btnFinalizarTeste.disabled = false;
-}
-
-function pausarTreinoTeste() {
-  if (!pausado) {
-    clearInterval(cronometroTeste);
-    pausado = true;
-    btnPausarTeste.textContent = '▶ Retomar';
-  } else {
-    cronometroTeste = setInterval(() => {
-      tempoTeste++;
-      cronometroTesteDisplay();
-    }, 1000);
-
-    pausado = false;
-    btnPausarTeste.textContent = '⏸ Pausar';
-  }
-}
-
-function cronometroTesteDisplay() {
-  document.getElementById('cronometroTeste').textContent =
-    formatarTempoTeste(tempoTeste);
-}
-
-function finalizarTreinoTeste() {
-  clearInterval(cronometroTeste);
-  document.getElementById('dadosFinaisTeste').style.display = 'block';
-}
-
-function selecionarHumorTeste(botao, humor) {
-  humorTeste = humor;
-  document.querySelectorAll('#treinoTeste .humor button')
-    .forEach(b => b.classList.remove('ativo'));
-  botao.classList.add('ativo');
-}
-
-function salvarTreinoTeste() {
-  const agora = new Date();
-
-  const treino = {
-    data: agora.toLocaleDateString(),
-    hora: agora.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-    tempo: formatarTempoTeste(tempoTeste),
-    kcal: document.getElementById('kcalTeste').value,
-    comentario: document.getElementById('comentarioTeste').value,
-    intensidade: humorTeste
-  };
-
-  const lista = JSON.parse(localStorage.getItem('treinosTeste')) || [];
-  lista.unshift(treino);
-  localStorage.setItem('treinosTeste', JSON.stringify(lista));
-
-  resetarTreinoTeste();
-  listarTreinosTeste();
-}
-
-function listarTreinosTeste() {
-  const lista = JSON.parse(localStorage.getItem('treinosTeste')) || [];
-  const container = document.getElementById('listaTreinosTeste');
-
-  container.innerHTML = '';
-
-  lista.forEach(t => {
-    container.innerHTML += `
-      <hr>
-      <strong>${t.data} • ${t.hora}</strong><br>
-      ⏱️ ${t.tempo}<br>
-      🔥 ${t.kcal || '-'} kcal<br>
-      Intensidade: ${t.intensidade || '-'}<br>
-      💬 ${t.comentario || 'Sem comentário'}
-      <hr>
-    `;
-  });
-}
-
-function resetarTreinoTeste() {
-  tempoTeste = 0;
-  humorTeste = '';
-  pausado = false;
-
-  document.getElementById('dadosFinaisTeste').style.display = 'none';
-  document.getElementById('kcalTeste').value = '';
-  document.getElementById('comentarioTeste').value = '';
-
-  btnIniciarTeste.disabled = false;
-  btnPausarTeste.disabled = true;
-  btnFinalizarTeste.disabled = true;
-  btnPausarTeste.textContent = '⏸ Pausar';
-}
-
-function formatarTempoTeste(seg) {
-  const h = String(Math.floor(seg / 3600)).padStart(2, '0');
-  const m = String(Math.floor((seg % 3600) / 60)).padStart(2, '0');
-  const s = String(seg % 60).padStart(2, '0');
-  return `${h}:${m}:${s}`;
-}
-
-/* carregar histórico do teste */
-document.addEventListener('DOMContentLoaded', listarTreinosTeste);
-
-/* ================= TESTES TREINO ================= */
-
-const tempoDescansoPadrao = 120; // 2 min
+const tempoDescansoPadrao = 120; // 2 minutos
 const timersDescanso = {};
 
-function abrirTeste() {
-  document.getElementById('modalTeste').style.display = 'block';
+/* ================= MODAL ================= */
+
+function abrirModal() {
+  document.getElementById('modalTreino').style.display = 'block';
+  carregarSeries();
 }
 
-function fecharTeste() {
-  document.getElementById('modalTeste').style.display = 'none';
+function fecharModal() {
+  document.getElementById('modalTreino').style.display = 'none';
 }
 
-/* ---------- NOTIFICAÇÃO ---------- */
+/* ================= NOTIFICAÇÃO ================= */
 
 function pedirPermissaoNotificacao() {
   if ('Notification' in window && Notification.permission === 'default') {
@@ -145,7 +28,7 @@ function enviarNotificacao(titulo, mensagem) {
   }
 }
 
-/* ---------- SÉRIES ---------- */
+/* ================= SÉRIES ================= */
 
 function marcarSerie(exercicioId, serie) {
   const key = 'seriesTeste';
@@ -161,12 +44,16 @@ function marcarSerie(exercicioId, serie) {
   }
 
   localStorage.setItem(key, JSON.stringify(dados));
-  atualizarSeriesVisual(exercicioId);
+  atualizarVisual(exercicioId);
 }
 
-/* ---------- VISUAL ---------- */
+function carregarSeries() {
+  document.querySelectorAll('.exercicio').forEach(ex => {
+    atualizarVisual(ex.dataset.id);
+  });
+}
 
-function atualizarSeriesVisual(exercicioId) {
+function atualizarVisual(exercicioId) {
   const dados = JSON.parse(localStorage.getItem('seriesTeste')) || {};
   const exercicio = document.querySelector(`[data-id="${exercicioId}"]`);
   const spans = exercicio.querySelectorAll('.series span');
@@ -179,7 +66,7 @@ function atualizarSeriesVisual(exercicioId) {
   });
 }
 
-/* ---------- DESCANSO ---------- */
+/* ================= DESCANSO ================= */
 
 function iniciarDescanso(exercicioId) {
   const container = document.getElementById(`descanso-${exercicioId}`);
@@ -189,8 +76,8 @@ function iniciarDescanso(exercicioId) {
     clearInterval(timersDescanso[exercicioId]);
   }
 
-  container.textContent = `⏱️ Descanso: ${formatarTempo(tempo)}`;
   container.classList.remove('liberado');
+  container.textContent = `⏱️ Descanso: ${formatarTempo(tempo)}`;
 
   timersDescanso[exercicioId] = setInterval(() => {
     tempo--;
@@ -210,10 +97,12 @@ function iniciarDescanso(exercicioId) {
   }, 1000);
 }
 
-function formatarTempo(seg) {
-  const m = String(Math.floor(seg / 60)).padStart(2, '0');
-  const s = String(seg % 60).padStart(2, '0');
+function formatarTempo(segundos) {
+  const m = String(Math.floor(segundos / 60)).padStart(2, '0');
+  const s = String(segundos % 60).padStart(2, '0');
   return `${m}:${s}`;
 }
+
+/* ================= INIT ================= */
 
 document.addEventListener('DOMContentLoaded', pedirPermissaoNotificacao);
