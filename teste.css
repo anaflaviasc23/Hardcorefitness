@@ -1,22 +1,60 @@
 body {
   font-family: Arial, sans-serif;
+  background: #f9fafb;
   padding: 20px;
+}
+
+h1 {
+  text-align: center;
+}
+
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 10px;
+  border-radius: 10px;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.abrir {
+  background: #ef4444;
+  color: #fff;
+}
+
+.fechar {
+  background: #111827;
+  color: #fff;
 }
 
 .modal {
   display: none;
   background: #fff;
+  margin-top: 20px;
   padding: 15px;
   border-radius: 12px;
 }
 
+.exercicio {
+  background: #f3f4f6;
+  padding: 12px;
+  border-radius: 10px;
+  margin-bottom: 15px;
+}
+
+.exercicio p {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
 .series {
   display: flex;
-  gap: 12px;
+  gap: 14px;
 }
 
 .series span {
-  font-size: 24px;
+  font-size: 26px;
   cursor: pointer;
   color: #9ca3af;
 }
@@ -28,24 +66,10 @@ body {
 .descanso {
   margin-top: 6px;
   font-size: 14px;
-  color: #9ca3af;
+  color: #6b7280;
 }
 
 .descanso.liberado {
-  color: #22c55e;
+  color: #16a34a;
   font-weight: bold;
 }
-
-#cronometroTeste {
-  font-size: 32px;
-  font-weight: bold;
-  text-align: center;
-  margin: 15px 0;
-  color: #ef4444;
-}
-
-#treinoTeste button {
-  width: 100%;
-  margin-top: 8px;
-}
-
