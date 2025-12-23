@@ -10,6 +10,27 @@
 <body>
 
   <h1>🧪 Hardcore Fitness — Área de Testes</h1>
+  
+  <p id="inicioTreino"></p>
+
+<button onclick="iniciarTreino()">▶ Iniciar Treino</button>
+<button onclick="finalizarTreino()" disabled id="btnFinalizar">⏹ Finalizar Treino</button>
+
+<div id="finalizacao" style="display:none;">
+  <input id="kcal" placeholder="Kcal gastas">
+  <textarea id="comentario" placeholder="Comentário"></textarea>
+
+  <p>Intensidade:</p>
+  <div class="humor">
+    <button onclick="selecionarHumor(this,'Difícil 😭')">😭</button>
+    <button onclick="selecionarHumor(this,'Intenso 🔥')">🔥</button>
+    <button onclick="selecionarHumor(this,'Tranquilo 😌')">😌</button>
+    <button onclick="selecionarHumor(this,'Suave 🥰')">🥰</button>
+  </div>
+
+  <button onclick="salvarTreino()">💾 Salvar Treino</button>
+</div>
+
 
   <button class="abrir" onclick="abrirModal()">🏋️ Abrir Treino Teste</button>
 
