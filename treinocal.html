@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Treinos - Hardcore Fitness</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 15px;
+      background: #0c0c0c;
+      color: #e5e7eb;
+    }
+
+    h1 {
+      text-align: center;
+      color: #dc2626;
+      margin-bottom: 20px;
+    }
+
+    .timer {
+      text-align: center;
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 25px;
+      color: #22c55e;
+    }
+
+    .treino {
+      margin-bottom: 25px;
+      padding: 15px;
+      border-radius: 12px;
+      background: rgb(25, 27, 32);
+      border-left: 5px solid #dc2626;
+    }
+
+    .treino h3 {
+      color: #f87171;
+      margin-bottom: 12px;
+      font-size: 16px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+
+    input[type="checkbox"] {
+      transform: scale(1.2);
+    }
+
+    .acoes {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 10px 15px;
+      background: #dc2626;
+      border: none;
+      border-radius: 8px;
+      color: #fff;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 5px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Calistenia Ana 💪🔥</h1>
+  <div class="timer" id="timer">00:00</div>
+
+  <div id="treinosContainer"></div>
+
+  <script>
+    const TEMPO_EXERCICIO = 40;
+    const TEMPO_DESCANSO = 20;
+
+    let intervalo;
+    let tempoAtual = 0;
+
+    // 🔔 Permissão de notificação
+    if ("Notification" in window && Notification.permission !== "granted") {
+      Notification.requestPermission();
+    }
+
+    function notificar(mensagem) {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("Hardcore Fitness 💪", {
+          body: mensagem,
+          silent: false
+        });
+      }
+    }
+
+    function vibrar() {
+      if (navigator.vibrate) {
+        navigator.vibrate([300, 150, 300]);
+      }
+    }
+
+    function iniciarTimer(segundos, mensagemFinal) {
+      clearInterval(intervalo);
+      tempoAtual = segundos;
+      atualizarTimer();
+
+      intervalo = setInterval(() => {
+        tempoAtual--;
+        atualizarTimer();
+
+        if (tempoAtual <= 0) {
+          clearInterval(intervalo);
+          notificar(mensagemFinal);
+          vibrar();
+        }
+      }, 1000);
+    }
+
+    function atualizarTimer() {
+      const min = String(Math.floor(tempoAtual / 60)).padStart(2, '0');
+      const sec = String(tempoAtual % 60).padStart(2, '0');
+      document.getElementById('timer').textContent = `${min}:${sec}`;
+    }
+
+    const treinos = [
+      {
+        nome: "Treino A – Calistenia Full Body",
+        exercicios: [
+           "Flexão Militar – 4x Máx.",
+          "Agachamento Livre – 4x20",
+          "Abdominal Militar – 4x20",
+          "Afundo Alternado – 3x15 (cada perna)",
+          "Flexão Diamante – 3x10",
+          "Mountain Climber – 4x30s",
+          "Prancha Frontal – 3x40s",
+          "Burpee – 3x10"
+        ]
+      },
+      {
+        nome: "Treino B – Calistenia Metabólico",
+        exercicios: [
+            "Flexão Militar Explosiva – 4x12",
+          "Agachamento com Salto – 4x15",
+          "Abdominal Remador – 4x15",
+          "Flexão Inclinada (apoio banco/cadeira) – 3x15",
+          "Corrida Parada (joelho alto) – 4x30s",
+          "Elevação de Pernas – 3x15",
+          "Polichinelo – 3x40s",
+          "Abdominal Isométrico – 3x30s"
+        ]
+      }
+    ];
+
+    const container = document.getElementById('treinosContainer');
+
+    treinos.forEach(treino => {
+      const div = document.createElement('div');
+      div.className = 'treino';
+
+      div.innerHTML = `<h3>${treino.nome}</h3>`;
+
+      const ul = document.createElement('ul');
+
+      treino.exercicios.forEach(ex => {
+        const li = document.createElement('li');
+        li.innerHTML = `
+          <input type="checkbox">
+          <label>${ex}</label>
+        `;
+        ul.appendChild(li);
+      });
+
+      const acoes = document.createElement('div');
+      acoes.className = 'acoes';
+
+      const iniciarBtn = document.createElement('button');
+      iniciarBtn.textContent = '▶ Exercício';
+      iniciarBtn.onclick = () =>
+        iniciarTimer(TEMPO_EXERCICIO, "Hora de descansar!");
+
+      const descansoBtn = document.createElement('button');
+      descansoBtn.textContent = '⏸ Descanso';
+      descansoBtn.onclick = () =>
+        iniciarTimer(TEMPO_DESCANSO, "Bora para o próximo exercício!");
+
+      acoes.appendChild(iniciarBtn);
+      acoes.appendChild(descansoBtn);
+
+      div.appendChild(ul);
+      div.appendChild(acoes);
+      container.appendChild(div);
+    });
+  </script>
+
+</body>
+</html>
