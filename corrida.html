@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Planejamento Corrida 5km</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f2f2f2;
+padding:20px;
+}
+
+h1{
+text-align:center;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+}
+
+.mes{
+background:white;
+margin-bottom:12px;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+cursor:pointer;
+}
+
+.treinos{
+display:none;
+margin-top:10px;
+}
+
+.treino{
+background:#fafafa;
+padding:10px;
+margin-bottom:8px;
+border-radius:6px;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+.progresso-container{
+background:#ddd;
+height:25px;
+border-radius:20px;
+overflow:hidden;
+margin-bottom:20px;
+}
+
+.progresso{
+background:#4CAF50;
+height:100%;
+width:0%;
+text-align:center;
+color:white;
+line-height:25px;
+font-size:14px;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>🏃‍♀️ Desafio Corrida 5km</h1>
+
+<div class="progresso-container">
+<div class="progresso" id="barraProgresso">0%</div>
+</div>
+
+
+<!-- MÊS 1 -->
+
+<div class="mes" onclick="toggleTreinos(0)">
+<h2>Mês 1 – Adaptação</h2>
+
+<div class="treinos">
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Segunda: 1 min corrida / 2 min caminhada x8
+</div>
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Quarta: 2 min corrida / 2 min caminhada x6
+</div>
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Sábado: 3 min corrida / 2 min caminhada x5
+</div>
+
+</div>
+</div>
+
+
+<!-- MÊS 2 -->
+
+<div class="mes" onclick="toggleTreinos(1)">
+<h2>Mês 2 – Resistência</h2>
+
+<div class="treinos">
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Segunda: 5 min corrida / 2 min caminhada x4
+</div>
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Quarta: 8 min corrida / 2 min caminhada x3
+</div>
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Sábado: 10 min corrida / 2 min caminhada x2
+</div>
+
+</div>
+</div>
+
+
+<!-- MÊS 3 -->
+
+<div class="mes" onclick="toggleTreinos(2)">
+<h2>Mês 3 – Corrida contínua</h2>
+
+<div class="treinos">
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Segunda: 15 min corrida + 10 min corrida
+</div>
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Quarta: 20 min corrida contínua
+</div>
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Sábado: 25 min corrida contínua
+</div>
+
+</div>
+</div>
+
+
+<!-- MÊS 4 -->
+
+<div class="mes" onclick="toggleTreinos(3)">
+<h2>Mês 4 – Objetivo 5km</h2>
+
+<div class="treinos">
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Segunda: 25 min corrida
+</div>
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Quarta: 30 min corrida
+</div>
+
+<div class="treino">
+<input type="checkbox" class="checkTreino">
+Sábado: 5km corrida completa 🎉
+</div>
+
+</div>
+</div>
+
+</div>
+
+
+<script>
+
+function toggleTreinos(index){
+
+let treinos = document.querySelectorAll(".treinos");
+
+treinos[index].style.display =
+treinos[index].style.display === "block" ? "none" : "block";
+
+}
+
+const checkboxes = document.querySelectorAll(".checkTreino")
+
+function atualizarProgresso(){
+
+let total = checkboxes.length
+let feitos = 0
+
+checkboxes.forEach((box,i)=>{
+
+if(box.checked){
+feitos++
+}
+
+localStorage.setItem("treino_"+i, box.checked)
+
+})
+
+let porcentagem = Math.round((feitos/total)*100)
+
+let barra = document.getElementById("barraProgresso")
+
+barra.style.width = porcentagem+"%"
+barra.innerText = porcentagem+"%"
+
+}
+
+checkboxes.forEach((box,i)=>{
+
+let salvo = localStorage.getItem("treino_"+i)
+
+if(salvo === "true"){
+box.checked = true
+}
+
+box.addEventListener("change", atualizarProgresso)
+
+})
+
+atualizarProgresso()
+
+</script>
+
+</body>
+</html>
